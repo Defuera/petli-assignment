@@ -58,7 +58,7 @@ class _PhotoListItem extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             child: Row(
               children: [
-                PhotoImage(imageUrl: photoModel.thumbnailUrl),
+                PhotoImage(imageUrl: photoModel.thumbnailUrl, size: 150),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
