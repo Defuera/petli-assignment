@@ -76,12 +76,22 @@ class _PhotoListItem extends StatelessWidget {
                       Align(
                         alignment: Alignment.bottomRight,
                         child: IconButton(
-                          onPressed: () => context.read<ImagesListBloc>().like(
-                                photoModel.id,
-                                isLiked: !photoModel.isLiked,
+                            onPressed: () => context.read<ImagesListBloc>().like(
+                                  photoModel.id,
+                                  isLiked: !photoModel.isLiked,
+                                ),
+                            icon: AnimatedCrossFade(
+                              crossFadeState: photoModel.isLiked ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                              duration: const Duration(milliseconds: 200), //magic number 😱
+                              firstChild: const Icon(
+                                Icons.favorite,
+                                color: Colors.redAccent,
                               ),
-                          icon: photoModel.isLiked ? const Icon(Icons.favorite) : const Icon(Icons.favorite_border),
-                        ),
+                              secondChild: const Icon(
+                                Icons.favorite_border,
+                                color: Colors.redAccent,
+                              ),
+                            )),
                       )
                     ],
                   ),
