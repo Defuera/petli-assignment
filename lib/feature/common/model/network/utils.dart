@@ -25,3 +25,36 @@ Future<Either<RemoteError, T>> executeSafely<R, T>(
     return Left(RemoteError.unexpected(error.toString()));
   }
 }
+
+extension EitherExtention<L, R> on Either<L, R> {
+  Future<Either<L, R>> doOnRightAsync(Future Function(R) callable) => fold(
+        (error) async => Left<L, R>(error),
+        (result) async {
+          await callable(result);
+
+          return Right<L, R>(result);
+        },
+      );
+
+  Either<L, R> doOnRight(Function(R) callable) => fold(
+        Left<L, R>.new,
+        (result) {
+          callable(result);
+
+          return Right<L, R>(result);
+        },
+      );
+
+  Future<Either<L, T>> mapRightAsync<T>(Future<T> Function(R) mapper) => fold(
+        (error) async => Left<L, T>(error),
+        (result) async {
+          final mappedResult = await mapper(result);
+
+          return Right<L, T>(mappedResult);
+        },
+      );
+
+  R? get valueOrNull => fold((error) => null, (result) => result);
+
+  L? get errorOrNull => fold((error) => error, (result) => null);
+}

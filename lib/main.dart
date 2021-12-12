@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
 import 'package:petli_assignment/feature/di.dart';
-import 'package:petli_assignment/feature/list/images_list_screen.dart';
+import 'package:petli_assignment/feature/list/photos_list_screen.dart';
 
 const expiredId = '6289a7bb-a1a8-40d5-bed1-bff3a5f62ee6';
 const validId = '092cc8ac-5e12-4654-8fed-1bcfe802771d';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petli_assignment/feature/common/model/photo_model.dart';
+import 'package:petli_assignment/feature/common/model/photo_display_model.dart';
 import 'package:petli_assignment/feature/common/ui/error_widget.dart';
 import 'package:petli_assignment/feature/common/ui/photo_image.dart';
-import 'package:petli_assignment/feature/list/images_list_bloc.dart';
+import 'package:petli_assignment/feature/list/photos_list_bloc.dart';
 
 class PhotosListScreen extends StatelessWidget {
   const PhotosListScreen({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class PhotosListScreen extends StatelessWidget {
 class _ImagesListDetails extends StatelessWidget {
   const _ImagesListDetails(this.photos, {Key? key}) : super(key: key);
 
-  final List<PhotoModel> photos;
+  final List<PhotoDisplayModel> photos;
 
   @override
   Widget build(BuildContext context) => ListView.builder(
@@ -43,7 +43,7 @@ class _ImagesListDetails extends StatelessWidget {
 
 class _PhotoListItem extends StatelessWidget {
   const _PhotoListItem(this.photoModel, {Key? key}) : super(key: key);
-  final PhotoModel photoModel;
+  final PhotoDisplayModel photoModel;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -56,20 +56,34 @@ class _PhotoListItem extends StatelessWidget {
           // },
           child: Card(
             clipBehavior: Clip.hardEdge,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                PhotoImage(
-                  imageUrl: photoModel.url,
-                  // placeholderAsset: 'assets/images/rijksmuseum_placeholder.png',
-                  aspectRatio: 3,
-                ),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    photoModel.title,
-                    style: Theme.of(context).textTheme.headline5?.copyWith(fontSize: 18),
+                PhotoImage(imageUrl: photoModel.thumbnailUrl),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          photoModel.title,
+                          style: Theme.of(context).textTheme.headline5?.copyWith(fontSize: 18),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: IconButton(
+                          onPressed: () => context.read<ImagesListBloc>().like(
+                                photoModel.id,
+                                isLiked: !photoModel.isLiked,
+                              ),
+                          icon: photoModel.isLiked ? const Icon(Icons.favorite) : const Icon(Icons.favorite_border),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],

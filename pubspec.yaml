@@ -24,6 +24,9 @@ dependencies:
   dio: ^4.0.1
   dio_logger: ^4.0.8+8
 
+  # Storage
+  shared_preferences: ^2.0.10
+
   # code generation
   json_annotation: ^4.0.1
   freezed_annotation: ^1.0.0

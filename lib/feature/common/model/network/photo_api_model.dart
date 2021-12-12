@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'photo_model.g.dart';
+part 'photo_api_model.g.dart';
 
 @JsonSerializable()
-class PhotoModel {
-  PhotoModel(
+class PhotoApiModel {
+  PhotoApiModel(
     this.albumId,
     this.id,
     this.title,
@@ -18,7 +18,7 @@ class PhotoModel {
   final String url;
   final String thumbnailUrl;
 
-  factory PhotoModel.fromJson(Map<String, dynamic> json) => _$PhotoModelFromJson(json);
+  factory PhotoApiModel.fromJson(Map<String, dynamic> json) => _$PhotoApiModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PhotoModelToJson(this);
+  Map<String, dynamic> toJson() => _$PhotoApiModelToJson(this);
 }
