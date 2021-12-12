@@ -13,24 +13,24 @@ class PhotosListScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('All those photos!'),
         ),
-        body: BlocProvider<ImagesListBloc>(
-          create: (context) => ImagesListBloc()..init(),
-          child: BlocBuilder<ImagesListBloc, ImagesListState>(
+        body: BlocProvider<PhotosListBloc>(
+          create: (context) => PhotosListBloc()..init(),
+          child: BlocBuilder<PhotosListBloc, PhotosListState>(
             builder: (context, state) => state.when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error) => AppErrorWidget(
                 error,
-                onRetry: context.read<ImagesListBloc>().retry,
+                onRetry: context.read<PhotosListBloc>().retry,
               ),
-              data: _ImagesListDetails.new,
+              data: _PhotosListDetails.new,
             ),
           ),
         ),
       );
 }
 
-class _ImagesListDetails extends StatelessWidget {
-  const _ImagesListDetails(this.photos, {Key? key}) : super(key: key);
+class _PhotosListDetails extends StatelessWidget {
+  const _PhotosListDetails(this.photos, {Key? key}) : super(key: key);
 
   final List<PhotoDisplayModel> photos;
 
@@ -76,7 +76,7 @@ class _PhotoListItem extends StatelessWidget {
                       Align(
                         alignment: Alignment.bottomRight,
                         child: IconButton(
-                            onPressed: () => context.read<ImagesListBloc>().like(
+                            onPressed: () => context.read<PhotosListBloc>().like(
                                   photoModel.id,
                                   isLiked: !photoModel.isLiked,
                                 ),

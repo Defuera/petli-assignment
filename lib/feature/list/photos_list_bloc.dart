@@ -8,16 +8,16 @@ import 'package:petli_assignment/feature/common/model/photos_repository.dart';
 part 'photos_list_bloc.freezed.dart';
 
 @freezed
-class ImagesListState with _$ImagesListState {
-  const factory ImagesListState.loading() = ImagesListStateLoading;
+class PhotosListState with _$PhotosListState {
+  const factory PhotosListState.loading() = PhotosListStateLoading;
 
-  const factory ImagesListState.error(RemoteError error) = ImagesListStateError;
+  const factory PhotosListState.error(RemoteError error) = PhotosListStateError;
 
-  const factory ImagesListState.data(List<PhotoDisplayModel> photos) = ImagesListStateData;
+  const factory PhotosListState.data(List<PhotoDisplayModel> photos) = PhotosListStateData;
 }
 
-class ImagesListBloc extends Cubit<ImagesListState> {
-  ImagesListBloc() : super(const ImagesListState.loading());
+class PhotosListBloc extends Cubit<PhotosListState> {
+  PhotosListBloc() : super(const PhotosListState.loading());
 
   final _repository = GetIt.instance.get<PhotosRepository>();
 
@@ -26,8 +26,8 @@ class ImagesListBloc extends Cubit<ImagesListState> {
   Future<void> init() async {
     final result = await _repository.getPhotos();
     result.fold(
-      (error) => emit(ImagesListState.error(error)),
-      (photos) => emit(ImagesListState.data(photos)),
+      (error) => emit(PhotosListState.error(error)),
+      (photos) => emit(PhotosListState.data(photos)),
     );
   }
 
@@ -43,7 +43,7 @@ class ImagesListBloc extends Cubit<ImagesListState> {
         }
       });
 
-      emit(ImagesListState.data(updatedList.toList()));
+      emit(PhotosListState.data(updatedList.toList()));
     }, orElse: () {
       //do nothing
     });
