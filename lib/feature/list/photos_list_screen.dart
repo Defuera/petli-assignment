@@ -51,13 +51,7 @@ class _PhotoListItem extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
-          onTap: () {
-            showModalBottomSheet<dynamic>(
-              context: context,
-              builder: (context) => PhotoDetailedScreen(model: photoModel),
-              isScrollControlled: true,
-            );
-          },
+          onTap: () => _showPhotoDetailed(context, context.read<PhotosListBloc>()),
           child: Card(
             clipBehavior: Clip.hardEdge,
             child: Row(
@@ -95,4 +89,15 @@ class _PhotoListItem extends StatelessWidget {
           ),
         ),
       );
+
+  Future<void> _showPhotoDetailed(BuildContext context, PhotosListBloc bloc) async {
+    await showModalBottomSheet<dynamic>(
+      context: context,
+      builder: (context) => PhotoDetailedScreen(model: photoModel),
+      isScrollControlled: true,
+    );
+
+    // ignore: unawaited_futures
+    bloc.reloadLike(photoModel.id);
+  }
 }

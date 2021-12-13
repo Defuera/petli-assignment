@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:either_option/either_option.dart';
 import 'package:petli_assignment/feature/common/model/error.dart';
 import 'package:petli_assignment/feature/common/model/local_storage.dart';
@@ -22,4 +24,6 @@ class PhotosRepository {
   Future<void> likePhoto(int photoId, {required bool isLiked}) async {
     storage.setLiked(photoId, isLiked: isLiked);
   }
+
+  Future<bool> isLiked(int photoId) async => storage.isLiked(photoId);
 }

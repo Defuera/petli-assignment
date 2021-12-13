@@ -48,4 +48,9 @@ class PhotosListBloc extends Cubit<PhotosListState> {
       //do nothing
     });
   }
+
+  Future<void> reloadLike(int photoId) async {
+    final isLiked = await _repository.isLiked(photoId);
+    await like(photoId, isLiked: isLiked);
+  }
 }
