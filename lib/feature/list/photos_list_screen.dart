@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petli_assignment/feature/common/model/photo_display_model.dart';
 import 'package:petli_assignment/feature/common/ui/error_widget.dart';
+import 'package:petli_assignment/feature/common/ui/like_button.dart';
 import 'package:petli_assignment/feature/common/ui/photo_image.dart';
+import 'package:petli_assignment/feature/detailed/photo_detailed_screen.dart';
 import 'package:petli_assignment/feature/list/photos_list_bloc.dart';
 
 class PhotosListScreen extends StatelessWidget {
@@ -49,11 +51,13 @@ class _PhotoListItem extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
-          // onTap: () {
-          //   Navigator.of(context).push<void>(MaterialPageRoute(
-          //     builder: (ctx) => ArtObjectScreen(objectId: artObject.objectNumber),
-          //   ));
-          // },
+          onTap: () {
+            showModalBottomSheet<dynamic>(
+              context: context,
+              builder: (context) => PhotoDetailedScreen(model: photoModel),
+              isScrollControlled: true,
+            );
+          },
           child: Card(
             clipBehavior: Clip.hardEdge,
             child: Row(
@@ -75,23 +79,13 @@ class _PhotoListItem extends StatelessWidget {
                       ),
                       Align(
                         alignment: Alignment.bottomRight,
-                        child: IconButton(
-                            onPressed: () => context.read<PhotosListBloc>().like(
-                                  photoModel.id,
-                                  isLiked: !photoModel.isLiked,
-                                ),
-                            icon: AnimatedCrossFade(
-                              crossFadeState: photoModel.isLiked ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                              duration: const Duration(milliseconds: 200), //magic number 😱
-                              firstChild: const Icon(
-                                Icons.favorite,
-                                color: Colors.redAccent,
+                        child: LikeButton(
+                          isLiked: photoModel.isLiked,
+                          onPressed: () => context.read<PhotosListBloc>().like(
+                                photoModel.id,
+                                isLiked: !photoModel.isLiked,
                               ),
-                              secondChild: const Icon(
-                                Icons.favorite_border,
-                                color: Colors.redAccent,
-                              ),
-                            )),
+                        ),
                       )
                     ],
                   ),
